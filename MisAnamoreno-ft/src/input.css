@@ -1,0 +1,34 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input:focus-visible {
+    outline: none;
+}
+html {
+    zoom: 1;
+}
+span.multiselect__tag {
+    background: #000000 !important
+}
+span.multiselect__option--selected.multiselect__option--highlight {
+    background: #000000 !important;
+    }
+span.multiselect__option--highlight {
+    background: #000000 !important;
+    }
+span.multiselect__option--selected.multiselect__option--highlight::after{
+    background: #000000 !important;
+}
+.multiselect__option--highlight::after{
+    background: #000000 !important;
+}
+.swal2-confirm {
+    background-color: #000000 !important;
+}
+html, body, #app {
+    height: 100%;
+    margin: 0;
+    background: #ffffff !important; /* Fondo blanco */
+}

@@ -8,8 +8,11 @@ defineProps({
 </script>
 
 <template>
-  <div class="greetings">
+  <div class="greetings bg-gray-100 p-4 rounded-lg shadow-md">
     <h1 class="green">{{ msg }}</h1>
+    <h1 class="text-black font-bold underline">
+      Hello world!
+    </h1>
     <h3>
       You’ve successfully created a project with
       <a href="https://vite.dev/" target="_blank" rel="noopener">Vite</a> +
