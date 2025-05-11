@@ -11,7 +11,7 @@ export default {
         'imputs': '#e7e7e7',
         'rosappa': '#a55676',
         'rosappa2': '#b56183',
-        'redppa': '#91173c',
+        'redppa': '#000000',
         'redppahv': '#67001f',
         'redlgppa': '#FFF7F9',
         'redlgppahv': '#ffe6ee',

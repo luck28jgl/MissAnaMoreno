@@ -1,10 +1,10 @@
 <script setup>
     import imgBg from '../assets/imginles.jpg'
-    import tecsollogo from '../assets/imginles.jpg'
+    import tecsollogo from '../assets/iconmis_ana.png'
 </script>
 <template>
     <div class="flex min-h-screen flex-1">
-        <div class="img2 flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-wtppa">
+        <div v-if="!registrar === true" class="img2 flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-wtppa">
             <div class="mx-auto w-full max-w-sm lg:w-96">
                 <div class="flex justify-center">
                     <img :src="tecsollogo" class="w-3/4">
@@ -68,7 +68,104 @@
                             class="btn-34 flex w-full justify-center rounded-3xl bg-redppa px-3 py-[12px] max-w-[366px] text-sm font-semibold leading-6 text-black shadow-sm hover:bg-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400">Login In</button>
                         <!-- <p class="p-10 text-center underline text-base cursor-pointer hover:font-bold" @click="abrirModalContra()">Olvidé mi contraseña</p> -->
                     </div>
+                    <div class="loginSignUpSeparator "><span class="textInSeparator">or</span></div>
+                    <div>
+                        <button
+                            @click="Create_Acount()"
+                            type="submit"
+                            class="btn-45 flex w-full text-black justify-center rounded-3xl bg-white px-3 py-[12px] border  border-redppa max-w-[366px] text-sm font-semibold leading-6  shadow-sm hover:bg-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400">Sign Up</button>
+                    </div>
                 </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="registrar === true" class="img2 flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-wtppa">
+            <div class="mx-auto w-full max-w-sm lg:w-96">
+                <div class="flex justify-start">
+                    <button class="bg-white text-center w-48 rounded-2xl h-14 relative text-black text-xl font-semibold group" type="button" @click="regresarform()" >
+                        <div class="bg-black  rounded-xl h-12 w-1/4 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[184px] z-10 duration-500" >
+                            <svg class="h-8 w-8 text-gray-50"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"/>
+                            </svg>
+                        </div>
+                        <p class="translate-x-2">Regresar</p>
+                    </button>
+                </div>
+                <div class="flex justify-center">
+                    <img :src="tecsollogo" style="width: 200px; height: 200px;">
+                </div>
+                <div class="mt-10">
+                    <div class="space-y-6" style="overflow-y: scroll; height: 300px;" >
+                        <label class="text-center text-lg font-semibold leading-6 text-gray-900">User data</label>
+                        <div class="w-full">
+                            <label for="nombre"
+                                class="block text-sm font-medium text-start text-gray-700">Name(s)</label>
+                            <input v-model="form.first_name" type="text" id="nombre"
+                                class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2"
+                                required />
+                        </div>
+                        <div class="w-full">
+                            <label for="nombre"
+                                class="block text-sm font-medium text-start text-gray-700">Last names:</label>
+                            <input v-model="form.last_name" type="text" id="apellidos"
+                                class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2"
+                                required />
+                        </div>
+                        <div class="w-full">
+                            <label for="grado" class="block mb-2 text-sm font-medium text-gray-900 text-black">Grado</label>
+                            <select id="grado" class="mt-1 block w-full border border-[#1f5b9b]  text-black rounded-md shadow-sm p-2">
+                                <option selected>1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                        <div class="w-full">
+                            <label for="grado" class="block mb-2 text-sm font-medium text-gray-900 text-black">Grupo</label>
+                            <select id="grado" class="mt-1 block w-full border border-[#1f5b9b] text-black rounded-md shadow-sm p-2">
+                                <option  value="A" selected>A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                            </select>
+                        </div>
+                        <div class="w-full">
+                            <label for="email"
+                            class="block text-sm text-start font-medium text-gray-700">Email</label>
+                            <input v-model="form.email" type="email" id="email"
+                            class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2"
+                            @input="validateEmail"
+                            :class="{ 'border-red-500': !validEmail }" required />
+                            <p v-if="!validEmail" class="text-red-500 text-sm mt-1">Must be a valid email address</p>
+                        </div>
+                        <div class="w-full">
+                            <form>
+                                <div class="flex space-x-4">
+                                    <div class="w-full">
+                                        <label for="contraseña" class="block text-sm font-medium text-start text-gray-700">Password:</label>
+                                        <input v-model="form.password" type="password" id="contraseña"
+                                            class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2" required />
+                                    </div>
+                                </div>
+                                <div style="    margin-bottom: 20px;" class="flex space-x-4">
+                                    <div class="w-full">
+                                        <label for="contraseñaConfirm" class="block text-sm font-medium text-start text-gray-700">
+                                            Confirm Password
+                                        </label>
+                                        <input v-model="form.passwordConfirm" type="password" id="contraseñaConfirm"
+                                            class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2" required />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <div class="space-y-6">
+                        <div class="mt-5 sm:mt-6 w-full">
+                            <button type="button"
+                                class="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-greenppa focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black sm:col-start-2"
+                                @click="guardarDatos()">Crear cuenta</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -79,10 +176,9 @@
     </div>
 </template>
 <script>
-    // import LoginService from '../services/LoginService';
+    import LoginService from '../services/LoginService';
     // import { defineComponent } from "vue";
     // import { RecaptchaV2, useRecaptcha } from "vue3-recaptcha-v2";
-    // const { handleGetResponse, handleExecute } = useRecaptcha();
     // import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
     export default {
@@ -97,6 +193,8 @@
         // },
         data() {
             return {
+                registrar: false,
+                validEmail: null,
                 openEdit: false,
                 datosrecuperar: {
                     email: ''
@@ -105,10 +203,20 @@
                     contraseñaNew: '',
                     repeatcontrasena: ''
                 },
+                form: {
+                    email: '',
+                    first_name: '',
+                    last_name: '',
+                    password: '',
+                    passwordConfirm: '',
+                    grado: 0,
+                    grupo: '',
+                },
                 code: ['', '', '', '', '', ''],
                 tokencatpcha: '',
                 email: '',
                 password: '',
+                usuario: 0,
                 recuperar: false,
                 showPassword: false,
                 passwords: false,
@@ -116,9 +224,81 @@
             }
         },
         methods: {
-            // onInput(event, index) {
-            //     const input = event.target;
-            //     const value = input.value;
+            validateEmail() {
+                // Validar formato de correo electrónico
+                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                this.validEmail = regex.test(this.form.email);
+
+            },
+            regresarform() {
+                this.registrar = false
+                this.form = {
+                    email: '',
+                    first_name: '',
+                    last_name: '',
+                    password: '',
+                    passwordConfirm: '',
+                    grado: 0,
+                    grupo: '',
+                }
+
+            },
+            Create_Acount() {
+                this.registrar = true
+                this.form = {
+                    email: '',
+                    first_name: '',
+                    last_name: '',
+                    password: '',
+                    passwordConfirm: '',
+                    grado: 0,
+                    grupo: '',
+                }
+
+            },
+            guardarDatos(){
+
+                if (!this.form.password || !this.form.passwordConfirm) {
+                    this.$swal({
+                        icon: 'error',
+                        title: 'Please fill in all password details.'
+                    });
+                    return; // Detener la ejecución si algún campo está vacío
+                }
+                if (this.form.password !== this.form.passwordConfirm) {
+                    this.$swal({
+                        icon: 'error',
+                        title: 'Passwords do not match'
+                    });
+                    return; // Detener la ejecución si las contraseñas no coinciden
+                }
+                LoginService.createAccount({
+                    usuario: this.form
+                }).then(response => {
+                    if (!response.data.status) {
+                        this.$swal({
+                            icon: 'error',
+                            title: 'Error creating account',
+                            text: response.data.message,
+                            timer: 3000
+                        });
+                        return;
+                    }
+                    this.$swal({
+                        icon: 'success',
+                        title: 'Account created successfully',
+                        timer: 3000
+                    });
+                    this.registrar = false
+                }).catch(error => {
+                    console.error(error);  // Agrega esta línea para depurar errores
+                    this.$swal({
+                        icon: 'error',
+                        title: 'Error creating account',
+                        timer: 3000
+                    });
+                })
+            },
 
             //     if (value.length === 1 && index < 5) {
             //         const nextInput = document.getElementById(`code${index + 1}`);
@@ -191,165 +371,100 @@
             //     this.tokencatpcha = '';
             //     console.log("Expired callback");
             // },
-            // ejecutartoken() {
-            //     if (this.tokencatpcha !== '') {
-            //         this.twogetUserType(true)
-            //         return
-            //     }
-            //     handleExecute(this.widgetId);
-            // },
+            ejecutartoken() {
+                this.twogetUserType(true)
+            },
             // handleLoadCallback(response) {
             //     console.log("Load callback", response);
             //     // this.tokencatpcha = response;
             //     this.tokencatpcha = response;
             //     this.twogetUserType()
             // },
-            // twogetUserType() {
-            //     LoginService.getUType({
-            //         username: this.email,
-            //     }).then(response => {
-            //         // console.log(response.data);
-            //         this.usuario = response.data.tipo
-            //         console.log(this.usuario);
-            //         this.loginUser()
-            //     }).catch(e => {
-            //         console.log(e.response)
-            //     })
-            // },
-            // validarEmail() {
-            //     if (this.datosrecuperar.email === '') {
-            //         this.$swal({
-            //             icon: 'warning',
-            //             title: 'Favor de ingresar el correo electronico'
-            //         })
-            //         return
-            //     }
-            //     let loader = this.$loading.show({
-            //         canCancel: false,
-            //         loader: 'bars'
-            //     });
-            //     const datos = {
-            //         email: this.datosrecuperar.email,
-            //     }
-            //     LoginService.verifyEmail(datos).then(response => {
-            //         loader.hide()
-            //         this.$swal({
-            //             icon: 'success',
-            //             title: 'Se ha enviado un correo electronico a tu correo ingresado',
-            //             timer: 3000
-            //         });
-            //         this.recuperar = true
-            //         this.recuperarContra = true
-            //     }).catch(error => {
-            //         loader.hide()
-            //         this.$swal({
-            //             icon: 'error',
-            //             title: 'Comunicate con el Administrador',
-            //             timer: 3000
-            //         });
-            //     })
-            // },
-            // ValidacionCodigo() {
-            //     if (!this.code.every(c => c !== '')) {
-            //         this.$swal({
-            //             icon: 'warning',
-            //             title: 'Verifica tu código'
-            //         })
-            //         return
-            //     }
-            //     // funcion
-            //     let loader = this.$loading.show({
-            //         canCancel: false,
-            //         loader: 'bars'
-            //     });
-            //     const datos = {
-            //         email: this.datosrecuperar.email,
-            //         code: this.code.join('')
-            //     }
-            //     LoginService.verifyCode(datos).then(response => {
-            //         loader.hide()
-            //         this.$swal({
-            //             icon: 'success',
-            //             title: 'Codigo de verificación a correcto',
-            //             timer: 3000
-            //         });
-            //         this.recuperarContra = false
-            //         this.passwords = true
-            //     }).catch(error => {
-            //         loader.hide()
-            //         this.$swal({
-            //             icon: 'error',
-            //             title: 'Codigo invalido o ya Expirado',
-            //             timer: 3000
-            //         });
-            //     })
+            twogetUserType() {
+                LoginService.getUType({
+                    username: this.email,
+                }).then(response => {
+                    // console.log(response.data);
+                    this.usuario = response.data.tipo
+                    console.log(this.usuario);
+                    this.loginUser()
+                }).catch(e => {
+                    console.log(e.response)
+                })
+            },
+ 
+            loginUser() {
+                let loader = this.$loading.show({
+                    canCancel: false,
+                    loader: 'bars'
+                });
+                const loginForm = {
+                    username: this.email,
+                    password: this.password,
+                }
+                LoginService.login(loginForm)
+                    .then(response => {
+                        loader.hide()
+                        // Verificar si la respuesta contiene el token
+                        console.log(response.data.auth_token);
+                        
+                        if (response.data.auth_token) {
+                            this.$swal({
+                                icon: 'success',
+                                title: 'Bienvenido',
+                                timer: 2000
+                            });
+                            this.getUserType(this.email);
+                            // Guardar el token en el store o localStorage
+                            this.$store.dispatch('user/setSession', response.data);
+    
+                            setTimeout(() => {
+                                this.$router.push('/');
+                            }, 2000);
+                        } else {
+                            // Si no hay token, mostrar un mensaje de error
+                            this.$swal({
+                                icon: 'error',
+                                title: 'Error al iniciar sesión. Intenta nuevamente.'
+                            });
+                        }
 
+                    }).catch(e => {
+                        loader.hide()
+                        if (e.response.data.error === 'Invalid credentials') {
+                            this.$swal({
+                                icon: 'error',
+                                title: 'If the passwords are correct, the account could be deactivated.'
+                            });
+                        } else {
+                            this.$swal({
+                                icon: 'error',
+                                title: 'Contact the administrator.'
+                            });
+                        }
+                    })
+            },
+            getUserType(hash_id) {
+                LoginService.getUType({
+                    username: this.email,
+                }).then(response => {
+                    this.$store.dispatch('user/setUserType', response.data.tipo);
+                    if (hash_id) {
+                        localStorage.setItem('userPk', hash_id); 
+                        localStorage.setItem('userId', hash_id);
+                        this.$router.push('/');
 
+                        console.log('Navigating to home page...');
 
-            // },
-            // loginUser() {
-            //     if (!this.tokencatpcha) {
-            //         this.$swal({
-            //             icon: 'error',
-            //             title: 'Verifica el captcha'
-            //         });
-            //         return;
-            //     }
-            //     let loader = this.$loading.show({
-            //         canCancel: false,
-            //         loader: 'bars'
-            //     });
-            //     const loginForm = {
-            //         username: this.email,
-            //         password: this.password,
-            //     }
-            //     LoginService.login(loginForm).then(response => {
-            //         loader.hide()
-            //         this.$swal({
-            //             icon: 'success',
-            //             title: 'Welcome',
-            //             timer: 2000
-            //         });
-            //         this.$store.dispatch('user/setSession', response.data);
-
-            //         this.getUserType(this.email)
-            //         // setTimeout(() => {
-            //         //     this.$router.push('/');
-            //         // }, 2000)
-            //     }).catch(e => {
-            //         loader.hide()
-            //         if (e.response.data.error === 'Invalid credentials') {
-            //             this.$swal({
-            //                 icon: 'error',
-            //                 title: 'If the passwords are correct, the account could be deactivated.'
-            //             });
-            //         } else {
-            //             this.$swal({
-            //                 icon: 'error',
-            //                 title: 'Contact the administrator.'
-            //             });
-            //         }
-            //     })
-            // },
-            // getUserType(hash_id) {
-            //     LoginService.getUType({
-            //         username: this.email,
-            //     }).then(response => {
-            //         this.$store.dispatch('user/setUserType', response.data.tipo);
-            //         if (hash_id) {
-            //             localStorage.setItem('userPk', hash_id); 
-            //             localStorage.setItem('userId', this.email);
-            //             this.$router.push('/');
-
-            //             console.log(`El ID del usuario (${this.email}) se guardó correctamente en localStorage.`);
-            //         } else {
-            //             console.error('No se pudo guardar el ID del usuario porque "this.email" está vacío o indefinido.');
-            //         }
-            //         // this.$router.push('/');
-            //     }).catch(e => {
-            //         console.log(e.response)
-            //     })
-            // }
+                        console.log(`El ID del usuario (${this.email}) se guardó correctamente en localStorage.`);
+                    } else {
+                        console.error('No se pudo guardar el ID del usuario porque "this.email" está vacío o indefinido.');
+                    }
+                    // this.$router.push('/');
+                }).catch(e => {
+                    console.log(e.response)
+                })
+            }
         }
     }
 </script>
@@ -363,8 +478,14 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+.btn-45{
+    background: #000000;
+    color: aliceblue;
+    border: solid 2px black;
+    font-weight: 800;
+}
 .btn-34{
-    border: solid 1px #d6d6d6;
+    border: solid 1px #000000;
     margin-top: 30px;
 }
 .img2{
@@ -385,5 +506,11 @@ input[type='number'] {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+@media screen and (max-width: 1011px) {
+    .content-img{
+        display: none;
+    }
+    
 }
 </style>
