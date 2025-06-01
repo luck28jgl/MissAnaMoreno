@@ -4,6 +4,9 @@ import MainLayout from '../layouts/MainLayout.vue';
 import { axiosInstance } from '@/boot/axios';
 import PrincipalPage from '../views/Index.vue';
 import Bocabulario from './Bocabulario';
+import Tareas from './Tareas';
+import staff from './staff';
+import abcedario from './abcedario';
 import Store from '@/store'; 
 // import administradores from './administradores';
 // import categoassets from './categoassets';
@@ -17,11 +20,6 @@ import Store from '@/store';
 // import PriceCredit from './PriceCredit.js';
 
 const routes = [
-    //como ago que si la url este vacio que me redireccione a la pagina de login
-    {
-        path: '/',
-        redirect: '/ingresar',
-    },
     {
         path: '/ingresar',
         name: 'LoginPath',
@@ -46,6 +44,9 @@ const routes = [
                 component: PrincipalPage,
             },
             {...Bocabulario},
+            {...Tareas},
+            {...staff},
+            {...abcedario},
 
         ],
         beforeEnter: (to, from, next) => {
@@ -62,12 +63,16 @@ const routes = [
                         Authorization: 'Token ' + sessionStorage.getItem('auth_token')
                     };
                 }
-                if (tipoUsuario  === 1 && to.path == '/' ) {
-                    next('/bocabulario');
-                }  else {
-                    next();
+                // Determinar la redirección en un solo lugar
+                if (to.path === '/') {
+                    if (tipoUsuario === 2) {
+                        next('/bocabulario');
+                    } else {
+                        next(); // Permitir la navegación
+                    }
+                } else {
+                    next(); // Permitir la navegación para otras rutas
                 }
-                // next();
             }
         }
     }

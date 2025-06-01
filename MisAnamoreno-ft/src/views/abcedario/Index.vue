@@ -2,13 +2,13 @@
     <div class="px-4 sm:px-6 lg:px-8 mt-10">
       <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
-          <h1 class="text-base font-semibold leading-6 text-gray-900"> Bocabulario</h1>
-          <p class="mt-2 text-sm text-black">Esta es una lista de todo el bocabulario disponible .</p>
+          <h1 class="text-base font-semibold leading-6 text-gray-900"> Abecedario</h1>
+          <p class="mt-2 text-sm text-black">Esta es una lista de todo el abecedario disponible .</p>
         </div>
-        <div class="mt-4 w-[200px] sm:flex-none">
+        <!-- <div class="mt-4 w-[200px] sm:flex-none">
                 <button @click="openCreate()" type="button" class="block rounded-md bg-black px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-redppahv focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">Agregar bocabulario</button>
 
-        </div>
+        </div> -->
 
       </div>
       <div class="mt-8 flow-root">
@@ -17,43 +17,22 @@
             <table class="min-w-full divide-y divide-gray-300">
               <thead>
                 <tr>
-                    <th scope="col" class="py-4 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">Texto en estañol </th>
-                    <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Texto en ingles</th>
+                    <th scope="col" class="py-4 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Texto en estañol </th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Texto en ingles</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">imagen</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">tipo</th>
-                    <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Actions</th>
+                    <!-- <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">tipo</th> -->
+                    <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 text-gray-900 ">Actions</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
                 <!-- https://mi-api-imagenes.s3.us-east-2.amazonaws.com/missAna/ -->
-                    <tr v-for="cl in UsrStaff" :key="cl.id">
-                    <td  class="whitespace-nowrap  px-3 py-4 text-sm text-center text-gray-500">
-                        <div class="flex flex-row justify-around items-center" >
-                            <div >
-                                {{ cl.texestanol }}
-                            </div>
-                            <button @click="pronounce(cl.texestanol, 'es-ES', cl.texestanol)" class="ml-2 flex items-center justify-center w-10 h-10">
-                                <img :src="speakingRow === cl.texestanol ? soundWaveGif : soundWaveStatic" alt="Voz activa" class="w-8 h-8" />
-                            </button>
-                        </div>
-
-                    </td>
-                    <td class="whitespace-nowrap   px-3 py-4 text-sm text-center text-gray-500">
-                        <div  class="flex flex-row justify-around items-center" >
-                            <div >
-                                <p>{{ cl.texingles }}</p>
-                            </div>
-                            <button @click="pronounce(cl.texingles, 'en-US')" class="ml-2">
-                                <img :src="speakingRow === cl.texingles ? soundWaveGif : soundWaveStatic" alt="Voz activa" class="w-8 h-8" />
-                            </button>
-                        </div>
-
-
-                    </td>
+                <tr v-for="cl in UsrStaff" :key="cl.id">
+                  <td  class="whitespace-nowrap px-3 py-4 text-sm text-left text-gray-500">{{ cl.texestanol }}</td>
+                  <td  class="whitespace-nowrap px-3 py-4 text-sm text-left text-gray-500">{{ cl.texingles }}</td>
                   <td  class="whitespace-nowrap px-3 py-4 text-sm text-left text-gray-500">
-                    <img v-if="cl.texturl" :src="'https://mi-api-imagenes.s3.us-east-2.amazonaws.com' + cl.texturl"@click="openImagePreview('https://mi-api-imagenes.s3.us-east-2.amazonaws.com' + cl.texturl)" style="width: 50px; height: 50px;" alt="tes">
+                    <img v-if="cl.texturl" :src="cl.texturl" style="width: 50px; height: 50px;" alt="tes">
                   </td>
-                  <td class=" py-4 pl-4 pr-3 text-left text-sm font-medium text-gray-900  sm:pl-6 ">{{ cl.nombre }} </td>
+                  <!-- <td class=" py-4 pl-4 pr-3 text-left text-sm font-medium text-gray-900  sm:pl-6 ">{{ cl.nombre }} </td> -->
 
                   <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
                     <Menu as="div" class="relative inline-block text-left">
@@ -72,9 +51,9 @@
                                     <MenuItem v-slot="{ active }">
                                         <div :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm cursor-pointer']" @click="deleteAdmin(cl.id)">Delete</div>
                                     </MenuItem>
-                                    <!-- <MenuItem v-slot="{ active }">
+                                    <MenuItem v-slot="{ active }">
                                         <div :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm cursor-pointer']" @click="verimagen(cl.img)">Preview</div>
-                                    </MenuItem> -->
+                                    </MenuItem>
                                 </div>
                             </MenuItems>
                         </transition>
@@ -235,30 +214,13 @@
                                     </div>
                                     <div class="flex flex-row space-x-1.5 relative w-full py-0 px-2.5 justify-between max-md:flex-col md:witdhmedium max-md:w-full items-center ">
                                         <div class="flex-1 relative mt-2 max-2xl:w-full max-2xl:mt-6">
+
                                             <div v-if="!editimg" class="col-span-full">
-                                                <div  class="flex-1 relative mt-20 max-2xl:w-full max-2xl:mt-6">
-                                                    <div class="w-full " >
-                                                        <button style="margin: auto; margin-top: 20px; margin-bottom: 20px; " class="block m-auto rounded-md bg-black px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-redppahv focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"  @click="editimg = !editimg">editar imagen</button>
-                                                    </div>
-                                                </div>
                                                 <label for="cover-photo" class="block text-sm/6 font-medium text-gray-900">Imagen actual</label>
 
                                                 <img :src="'https://mi-api-imagenes.s3.us-east-2.amazonaws.com' + bocedit.fileurl" style="width: 50px; height: 50px; margin: auto;" alt="tes">
                                             </div>
                                             <div v-else class="col-span-full">
-                                                <div class="flex-1 relative mt-20 max-2xl:w-full max-2xl:mt-6">
-                                                    <div class="w-full flex" >
-                                                        <!-- <button @click="editimg = !editimg"></button> -->
-                                                        <button class="bg-white text-center w-48 rounded-2xl h-14 relative text-black text-xl font-semibold group" type="button" @click="editimg = !editimg" >
-                                                            <div class="bg-black  rounded-xl h-12 w-1/4 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[184px] z-10 duration-500" >
-                                                                <svg class="h-8 w-8 text-gray-50"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"/>
-                                                                </svg>
-                                                            </div>
-                                                            <p class="translate-x-2">No editar</p>
-                                                        </button>
-                                                    </div>
-                                                </div>
                                                 <label for="cover-photo" class="block text-sm/6 font-medium text-gray-900">Image</label>
                                                 <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                                 <div class="text-center">
@@ -273,6 +235,24 @@
                                                     <p v-if="archsub"  class="pl-1 text-black">Archivo recibido: {{ archsub }}</p>
 
                                                 </div>
+                                                </div>
+                                            </div>
+                                            <div v-if="!editimg"  class="flex-1 relative mt-20 max-2xl:w-full max-2xl:mt-6">
+                                                <div class="w-full " >
+                                                    <button style="margin: auto; margin-top: 20px; margin-bottom: 20px; " class="block m-auto rounded-md bg-black px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-redppahv focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"  @click="editimg = !editimg">editar imagen</button>
+                                                </div>
+                                            </div>
+                                            <div v-else class="flex-1 relative mt-20 max-2xl:w-full max-2xl:mt-6">
+                                                <div class="w-full flex" >
+                                                    <!-- <button @click="editimg = !editimg"></button> -->
+                                                    <button class="bg-white text-center w-48 rounded-2xl h-14 relative text-black text-xl font-semibold group" type="button" @click="editimg = !editimg" >
+                                                        <div class="bg-black  rounded-xl h-12 w-1/4 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[184px] z-10 duration-500" >
+                                                            <svg class="h-8 w-8 text-gray-50"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"/>
+                                                            </svg>
+                                                        </div>
+                                                        <p class="translate-x-2">No editar</p>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -290,42 +270,20 @@
             </div>
         </Dialog>
     </TransitionRoot>
-    <TransitionRoot as="template" :show="showPreviewModal">
-        <Dialog as="div" class="relative z-50" @close="showPreviewModal = false">
-            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-            </TransitionChild>
-
-            <div class="fixed inset-0 z-10 overflow-y-auto">
-                <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl">
-                            <div class="flex justify-end">
-                                <button @click="showPreviewModal = false" class="text-gray-500 hover:text-gray-700">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="mt-2">
-                                <img :src="previewImage" alt="Preview" class="w-full h-auto rounded-md">
-                            </div>
-                        </DialogPanel>
-                    </TransitionChild>
-                </div>
-            </div>
-        </Dialog>
-    </TransitionRoot>
 </template>
 <script setup>
+    import abecedarioServices from '@/services/abecedarioServices'
     import BocabularioServices from '@/services/BocabularioServices'
-    import soundWaveGif from '@/assets/icons8-onda-sonora.gif';
-    import soundWaveStatic from '@/assets/icons8-onda-sonora-32.png';
+    // import CatalogsServices from '@/services/CatalogsServices';
+    // import { ref } from 'vue'
+    // import { Switch } from '@headlessui/vue'
     import { ChevronDownIcon } from '@heroicons/vue/20/solid'
     import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
     import { PhotoIcon } from '@heroicons/vue/24/solid'
+    // import { ChevronUpDownIcon, CheckIcon} from '@heroicons/vue/20/solid'
     import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot} from '@headlessui/vue'
-    import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue' 
+    import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
+    // import { URL_API } from '@/boot/axios';
 
 </script>
 <script>
@@ -334,10 +292,6 @@ export default {
     name: 'bocabularioIndex',
     data () {
         return {
-            speakingRow: null, // Almacena el ID de la fila que está hablando
-            isSpeaking: false, // URL de la imagen seleccionada
-            previewImage: null, // URL de la imagen seleccionada
-            showPreviewModal: false, // Estado del modal
 			tipoUsuario: null,
 			paginaactual: 1,
 			archsub: '',
@@ -457,24 +411,6 @@ export default {
         // this.getcategorias()
     },
     methods: {
-            // ...existing methods...
-        openImagePreview(imageUrl) {
-            this.previewImage = imageUrl;
-            this.showPreviewModal = true;
-        },
-        pronounce(text, lang) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = lang; // 'es-ES' para español, 'en-US' para inglés
-            
-            // Cambiar el estado a "hablando"
-            this.speakingRow = text;
-
-            // Escuchar cuando termine la reproducción
-            utterance.onend = () => {
-                this.speakingRow = false; // Cambiar el estado a "no hablando"
-            };
-            window.speechSynthesis.speak(utterance);
-        },
         guardar_catego() {
             this.userAdd.categoria = this.selectedItem               
             this.userAdd.categorianame = this.selectedItem_name               
@@ -550,20 +486,23 @@ export default {
         },
         deleteAdmin(cl) {
             this.$swal({
-                title: 'Desea eliminar este elemento?',
-                text: "¡No podrás revertir esto!",
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Sí, eliminar!',
-                cancelButtonText: 'Cancelar',
-    
+                confirmButtonText: 'Yes, delete!',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    confirmButton: 'my-confirm-button',
+                    cancelButton: 'my-cancel-button'
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
                     let loader = this.$loading.show({
                         canCancel: false,
                         loader: 'bars'
                     });
-                    BocabularioServices.deleteboc({id: cl}).then(response => {
+                    assetsServices.deletecatego({id: cl}).then(response => {
                         loader.hide()
                         this.$swal({
                             icon: 'success',
@@ -607,21 +546,27 @@ export default {
             console.log('bocedit',this.bocedit);
         },
         actualizarDatos() {
+
+        },
+        guardarDatos() {
+            if (!this.boc.file) {
+                this.$swal({
+                    icon: 'error',
+                    title: 'Por favor, selecciona un archivo'
+                });
+                return;
+            }
+
             // Crear un FormData para enviar el archivo y otros datos
             const formData = new FormData();
-            formData.append('id', this.bocedit.id); // ID del elemento a actualizar
-            formData.append('editimg', this.editimg); // ID del elemento a actualizar
-            formData.append('nombre', this.bocedit.tipo.name);
-            formData.append('texestanol', this.bocedit.espanol);
-            formData.append('texingles', this.bocedit.ingles);
+            formData.append('id', this.bocedit.file); // Asegúrate de que el campo coincida con el backend
+            formData.append('archivo', this.bocedit.file); // Asegúrate de que el campo coincida con el backend
+            formData.append('nombre', this.bocedit.tipo.nombre);
+            formData.append('texestanol', this.bocedit.espanol );
+            formData.append('texingles', this.bocedit.ingles );
             formData.append('descripcion', this.bocedit.descripcion || '');
             formData.append('publico', this.bocedit.publico ? 'true' : 'false');
             formData.append('tipo', this.bocedit.tipo.id);
-
-            // Solo agregar el archivo si editimg es true
-            if (this.editimg && this.bocedit.file) {
-                formData.append('archivo', this.bocedit.file);
-            }
 
             let loader = this.$loading.show({
                 canCancel: false,
@@ -652,60 +597,12 @@ export default {
                     });
                 });
         },
-        guardarDatos() {
-            if (!this.boc.file) {
-                this.$swal({
-                    icon: 'error',
-                    title: 'Por favor, selecciona un archivo'
-                });
-                return;
-            }
-
-            // Crear un FormData para enviar el archivo y otros datos
-            const formData = new FormData();
-            formData.append('archivo', this.boc.file); // Asegúrate de que el campo coincida con el backend
-            formData.append('nombre', this.boc.tipo.nombre);
-            formData.append('texestanol', this.boc.espanol );
-            formData.append('texingles', this.boc.ingles );
-            formData.append('descripcion', this.boc.descripcion || '');
-            formData.append('publico', this.boc.publico ? 'true' : 'false');
-            formData.append('tipo', this.boc.tipo.id);
-
-            let loader = this.$loading.show({
-                canCancel: false,
-                loader: 'bars'
-            });
-
-            console.log('formData', formData);
-
-            // Llamar a la API para actualizar el asset
-            BocabularioServices.crearBoc(formData)
-                .then(response => {
-                    loader.hide();
-                    this.$swal({
-                        icon: 'success',
-                        title: 'Bocabulario actualizado exitosamente',
-                        timer: 2000
-                    });
-                    this.open = false;
-                    this.archsub = '';
-                    this.getstaff();
-                })
-                .catch(error => {
-                    loader.hide();
-                    console.error(error);
-                    this.$swal({
-                        icon: 'error',
-                        title: 'Verifica tu información'
-                    });
-                });
-        },
         getstaff(page) {
             let loader = this.$loading.show({
                 canCancel: false,
                 loader: 'bars'
             });
-            BocabularioServices.getabecedario(
+            abecedarioServices.getabecedario(
                 {
                     page: page,
                     nombre: this.filtro_name

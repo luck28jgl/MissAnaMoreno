@@ -2,12 +2,11 @@
     <div class="px-4 sm:px-6 lg:px-8 mt-10">
       <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
-          <h1 class="text-base font-semibold leading-6 text-gray-900"> Bocabulario</h1>
-          <p class="mt-2 text-sm text-black">Esta es una lista de todo el bocabulario disponible .</p>
+          <h1 class="text-base font-semibold leading-6 text-gray-900">Usuarios</h1>
+          <p class="mt-2 text-sm text-black">Esta es una lista de todo el staff bocabulario disponible .</p>
         </div>
         <div class="mt-4 w-[200px] sm:flex-none">
-                <button @click="openCreate()" type="button" class="block rounded-md bg-black px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-redppahv focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">Agregar bocabulario</button>
-
+            <button @click="openCreate()" type="button" class="block rounded-md bg-black px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-redppahv focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">Agregar usuario</button>
         </div>
 
       </div>
@@ -17,43 +16,18 @@
             <table class="min-w-full divide-y divide-gray-300">
               <thead>
                 <tr>
-                    <th scope="col" class="py-4 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">Texto en estañol </th>
-                    <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Texto en ingles</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">imagen</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">tipo</th>
-                    <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Actions</th>
+                    <th scope="col" class="py-4 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Nombre completo </th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Tipo usuario </th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">correo</th>
+                    <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6  text-sm font-semibold text-gray-900">Actions</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
                 <!-- https://mi-api-imagenes.s3.us-east-2.amazonaws.com/missAna/ -->
-                    <tr v-for="cl in UsrStaff" :key="cl.id">
-                    <td  class="whitespace-nowrap  px-3 py-4 text-sm text-center text-gray-500">
-                        <div class="flex flex-row justify-around items-center" >
-                            <div >
-                                {{ cl.texestanol }}
-                            </div>
-                            <button @click="pronounce(cl.texestanol, 'es-ES', cl.texestanol)" class="ml-2 flex items-center justify-center w-10 h-10">
-                                <img :src="speakingRow === cl.texestanol ? soundWaveGif : soundWaveStatic" alt="Voz activa" class="w-8 h-8" />
-                            </button>
-                        </div>
-
-                    </td>
-                    <td class="whitespace-nowrap   px-3 py-4 text-sm text-center text-gray-500">
-                        <div  class="flex flex-row justify-around items-center" >
-                            <div >
-                                <p>{{ cl.texingles }}</p>
-                            </div>
-                            <button @click="pronounce(cl.texingles, 'en-US')" class="ml-2">
-                                <img :src="speakingRow === cl.texingles ? soundWaveGif : soundWaveStatic" alt="Voz activa" class="w-8 h-8" />
-                            </button>
-                        </div>
-
-
-                    </td>
-                  <td  class="whitespace-nowrap px-3 py-4 text-sm text-left text-gray-500">
-                    <img v-if="cl.texturl" :src="'https://mi-api-imagenes.s3.us-east-2.amazonaws.com' + cl.texturl"@click="openImagePreview('https://mi-api-imagenes.s3.us-east-2.amazonaws.com' + cl.texturl)" style="width: 50px; height: 50px;" alt="tes">
-                  </td>
-                  <td class=" py-4 pl-4 pr-3 text-left text-sm font-medium text-gray-900  sm:pl-6 ">{{ cl.nombre }} </td>
+                <tr v-for="cl in UsrStaff" :key="cl.id">
+                  <td  class="whitespace-nowrap px-3 py-4 text-sm text-left text-gray-500">{{ cl.usr.first_name }}</td>
+                  <td  class="whitespace-nowrap px-3 py-4 text-sm text-left text-gray-500">{{ cl.usr.last_name }}</td>
+                  <td  class="whitespace-nowrap px-3 py-4 text-sm text-left text-gray-500">{{ cl.usr.email }}</td>
 
                   <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
                     <Menu as="div" class="relative inline-block text-left">
@@ -72,9 +46,9 @@
                                     <MenuItem v-slot="{ active }">
                                         <div :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm cursor-pointer']" @click="deleteAdmin(cl.id)">Delete</div>
                                     </MenuItem>
-                                    <!-- <MenuItem v-slot="{ active }">
+                                    <MenuItem v-slot="{ active }">
                                         <div :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm cursor-pointer']" @click="verimagen(cl.img)">Preview</div>
-                                    </MenuItem> -->
+                                    </MenuItem>
                                 </div>
                             </MenuItems>
                         </transition>
@@ -115,59 +89,67 @@
                             <div  class="mt-3 text-center sm:mt-5">
                                 <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Nuevo bocabulario</DialogTitle>
                                 <div class="mt-2">
-
-                                    <div class="flex flex-row gap-5 space-x-1.5 relative w-full py-0 px-2.5 justify-between max-md:flex-col md:witdhmedium max-md:w-full items-center ">
-                                        <div class="flex-1 relative mt-2 max-2xl:w-full max-2xl:mt-6">
-                                            <label for="precio" class="block text-sm font-medium leading-6 text-gray-900 text-left">Español:</label>
-                                            <div class="relative mt-2">
-                                                <input type="text" name="precio" id="precio" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" placeholder="" v-model="boc.espanol"/>
-                                                <div class="absolute inset-x-0 bottom-0 border-t border-gray-300 peer-focus:border-t-2 peer-focus:border-black" aria-hidden="true" />
+                                    <div class="mt-10">
+                                        <div class="space-y-6" style="overflow-y: scroll; height: 300px;" >
+                                            <label class="text-center text-lg font-semibold leading-6 text-gray-900">Datos del usuario</label>
+                                            <div class="w-full">
+                                                <label for="nombre"
+                                                    class="block text-sm font-medium text-start text-gray-700">Nombre(s)</label>
+                                                <input v-model="form.first_name" type="text" id="nombre"
+                                                    class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2"
+                                                    required />
                                             </div>
-                                        </div>
-                                        <div class="flex-1 relative mt-2 max-2xl:w-full max-2xl:mt-6">
-                                            <label for="precio" class="block text-sm font-medium leading-6 text-gray-900 text-left">Ingles:</label>
-                                            <div class="relative mt-2">
-                                                <input type="text" name="ingles" id="ingles" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" placeholder="" v-model="boc.ingles"/>
-                                                <div class="absolute inset-x-0 bottom-0 border-t border-gray-300 peer-focus:border-t-2 peer-focus:border-black" aria-hidden="true" />
+                                            <div class="w-full">
+                                                <label for="nombre"
+                                                    class="block text-sm font-medium text-start text-gray-700">Apellidos:</label>
+                                                <input v-model="form.last_name" type="text" id="apellidos"
+                                                    class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2"
+                                                    required />
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-row space-x-1.5 relative w-full py-0 px-2.5 justify-between max-md:flex-col md:witdhmedium max-md:w-full items-center ">
-                                        <div class="flex-1 relative mt-20 max-2xl:w-full max-2xl:mt-6">
-                                            <label for="name" class="block text-sm font-medium leading-6 text-gray-900 text-left">tipo de bocabulario:</label>
-                                            <div class="relative w-full max-w-xs">
-                                                <select
-                                                v-model="boc.tipo"
-                                                class="block w-full text-black px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                >
-                                                    <option value="" disabled>Selecciona un tipo</option>
-                                                    <option class="text-black" v-for="tipo in tipos" :key="tipo.id" :value="tipo">
-                                                        {{ tipo.nombre }}
-                                                    </option>
+                                            <div class="w-full">
+                                                <label for="grado" class="block mb-2 text-sm font-medium text-gray-900 text-black">Grado</label>
+                                                <select id="grado" class="mt-1 block w-full border border-[#1f5b9b] text-black rounded-md shadow-sm p-2">
+                                                    <option selected>1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
                                                 </select>
                                             </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-row space-x-1.5 relative w-full py-0 px-2.5 justify-between max-md:flex-col md:witdhmedium max-md:w-full items-center ">
-                                        <div class="flex-1 relative mt-2 max-2xl:w-full max-2xl:mt-6">
-                                            <div class="col-span-full">
-                                                <label for="cover-photo" class="block text-sm/6 font-medium text-gray-900">Image</label>
-                                                <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                                                <div class="text-center">
-                                                    <PhotoIcon class="mx-auto size-12 text-gray-300" aria-hidden="true" />
-                                                    <div v-if="!archsub"  class="mt-4 flex flex-col text-sm/6 text-gray-600">
-                                                        <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 focus-within:outline-hidden hover:text-indigo-500">
-                                                            <span>Upload file</span>
-                                                            <input  @input="handleFileInput" :multiple="false" id="file-upload" name="file-upload" type="file" class="sr-only" />
-                                                        </label>
-                                                        <p class="text-xs/5 text-gray-600">PNG, JPG de 10MB</p>
-
+                                            <div class="w-full">
+                                                <label for="grupo" class="block mb-2 text-sm font-medium text-gray-900 text-black">Grupo</label>
+                                                <select id="grupo" class="mt-1 block w-full border border-[#1f5b9b] text-black rounded-md shadow-sm p-2">
+                                                    <option  value="A" selected>A</option>
+                                                    <option value="B">B</option>
+                                                    <option value="C">C</option>
+                                                </select>
+                                            </div>
+                                            <div class="w-full">
+                                                <label for="email"
+                                                class="block text-sm text-start font-medium text-gray-700">Correo electrónico</label>
+                                                <input v-model="form.email" type="email" id="email"
+                                                class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2"
+                                                @input="validateEmail"
+                                                :class="{ 'border-red-500': !validEmail }" required />
+                                                <p v-if="!validEmail" class="text-red-500 text-sm mt-1">Debe ser una dirección de correo electrónico válida</p>
+                                            </div>
+                                            <div class="w-full">
+                                                <form>
+                                                    <div class="flex space-x-4">
+                                                        <div class="w-full">
+                                                            <label for="contraseña" class="block text-sm font-medium text-start text-gray-700">Contraseña:</label>
+                                                            <input v-model="form.password" type="password" id="contraseña"
+                                                                class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2" required />
+                                                        </div>
                                                     </div>
-                                                    <p v-if="archsub"  class="pl-1">Archivo recibido: {{ archsub }}</p>
-
-                                                </div>
-                                                </div>
+                                                    <div style="margin-bottom: 20px;" class="flex space-x-4">
+                                                        <div class="w-full">
+                                                            <label for="contraseñaConfirm" class="block text-sm font-medium text-start text-gray-700">
+                                                                Confirm Password
+                                                            </label>
+                                                            <input v-model="form.passwordConfirm" type="password" id="contraseñaConfirm"
+                                                                class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2" required />
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -220,7 +202,7 @@
                                             <label for="name" class="block text-sm font-medium leading-6 text-gray-900 text-left">tipo de bocabulario:</label>
                                             <div class="relative w-full max-w-xs">
                                                 <select
-                                                v-model="bocedit.tipo"
+                                                v-model="bocedit.fileurl"
                                                 class="block w-full text-black px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 >
                                                     <option value="" disabled>Selecciona un tipo</option>
@@ -235,8 +217,10 @@
                                     </div>
                                     <div class="flex flex-row space-x-1.5 relative w-full py-0 px-2.5 justify-between max-md:flex-col md:witdhmedium max-md:w-full items-center ">
                                         <div class="flex-1 relative mt-2 max-2xl:w-full max-2xl:mt-6">
+
+
                                             <div v-if="!editimg" class="col-span-full">
-                                                <div  class="flex-1 relative mt-20 max-2xl:w-full max-2xl:mt-6">
+                                                <div v-if="!editimg"  class="flex-1 relative mt-20 max-2xl:w-full max-2xl:mt-6">
                                                     <div class="w-full " >
                                                         <button style="margin: auto; margin-top: 20px; margin-bottom: 20px; " class="block m-auto rounded-md bg-black px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-redppahv focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"  @click="editimg = !editimg">editar imagen</button>
                                                     </div>
@@ -275,6 +259,7 @@
                                                 </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -290,42 +275,19 @@
             </div>
         </Dialog>
     </TransitionRoot>
-    <TransitionRoot as="template" :show="showPreviewModal">
-        <Dialog as="div" class="relative z-50" @close="showPreviewModal = false">
-            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-            </TransitionChild>
-
-            <div class="fixed inset-0 z-10 overflow-y-auto">
-                <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl">
-                            <div class="flex justify-end">
-                                <button @click="showPreviewModal = false" class="text-gray-500 hover:text-gray-700">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="mt-2">
-                                <img :src="previewImage" alt="Preview" class="w-full h-auto rounded-md">
-                            </div>
-                        </DialogPanel>
-                    </TransitionChild>
-                </div>
-            </div>
-        </Dialog>
-    </TransitionRoot>
 </template>
 <script setup>
-    import BocabularioServices from '@/services/BocabularioServices'
-    import soundWaveGif from '@/assets/icons8-onda-sonora.gif';
-    import soundWaveStatic from '@/assets/icons8-onda-sonora-32.png';
+    import UsuariosServices from '@/services/UsuariosServices'
+    // import CatalogsServices from '@/services/CatalogsServices';
+    // import { ref } from 'vue'
+    // import { Switch } from '@headlessui/vue'
     import { ChevronDownIcon } from '@heroicons/vue/20/solid'
     import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
     import { PhotoIcon } from '@heroicons/vue/24/solid'
+    // import { ChevronUpDownIcon, CheckIcon} from '@heroicons/vue/20/solid'
     import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot} from '@headlessui/vue'
-    import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue' 
+    import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
+    // import { URL_API } from '@/boot/axios';
 
 </script>
 <script>
@@ -334,10 +296,6 @@ export default {
     name: 'bocabularioIndex',
     data () {
         return {
-            speakingRow: null, // Almacena el ID de la fila que está hablando
-            isSpeaking: false, // URL de la imagen seleccionada
-            previewImage: null, // URL de la imagen seleccionada
-            showPreviewModal: false, // Estado del modal
 			tipoUsuario: null,
 			paginaactual: 1,
 			archsub: '',
@@ -348,6 +306,15 @@ export default {
             contador: 0,
             next: null,
             previous: null,
+            form: {
+                email: '',
+                first_name: '',
+                last_name: '',
+                password: '',
+                passwordConfirm: '',
+                grado: 0,
+                grupo: '',
+            },
             switchesState: {},
             UsrStaff: [],
             editimg: false,
@@ -457,22 +424,9 @@ export default {
         // this.getcategorias()
     },
     methods: {
-            // ...existing methods...
-        openImagePreview(imageUrl) {
-            this.previewImage = imageUrl;
-            this.showPreviewModal = true;
-        },
         pronounce(text, lang) {
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = lang; // 'es-ES' para español, 'en-US' para inglés
-            
-            // Cambiar el estado a "hablando"
-            this.speakingRow = text;
-
-            // Escuchar cuando termine la reproducción
-            utterance.onend = () => {
-                this.speakingRow = false; // Cambiar el estado a "no hablando"
-            };
             window.speechSynthesis.speak(utterance);
         },
         guardar_catego() {
@@ -550,20 +504,23 @@ export default {
         },
         deleteAdmin(cl) {
             this.$swal({
-                title: 'Desea eliminar este elemento?',
-                text: "¡No podrás revertir esto!",
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Sí, eliminar!',
-                cancelButtonText: 'Cancelar',
-    
+                confirmButtonText: 'Yes, delete!',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    confirmButton: 'my-confirm-button',
+                    cancelButton: 'my-cancel-button'
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
                     let loader = this.$loading.show({
                         canCancel: false,
                         loader: 'bars'
                     });
-                    BocabularioServices.deleteboc({id: cl}).then(response => {
+                    assetsServices.deletecatego({id: cl}).then(response => {
                         loader.hide()
                         this.$swal({
                             icon: 'success',
@@ -607,21 +564,27 @@ export default {
             console.log('bocedit',this.bocedit);
         },
         actualizarDatos() {
+
+        },
+        guardarDatos() {
+            if (!this.boc.file) {
+                this.$swal({
+                    icon: 'error',
+                    title: 'Por favor, selecciona un archivo'
+                });
+                return;
+            }
+
             // Crear un FormData para enviar el archivo y otros datos
             const formData = new FormData();
-            formData.append('id', this.bocedit.id); // ID del elemento a actualizar
-            formData.append('editimg', this.editimg); // ID del elemento a actualizar
-            formData.append('nombre', this.bocedit.tipo.name);
-            formData.append('texestanol', this.bocedit.espanol);
-            formData.append('texingles', this.bocedit.ingles);
+            formData.append('id', this.bocedit.file); // Asegúrate de que el campo coincida con el backend
+            formData.append('archivo', this.bocedit.file); // Asegúrate de que el campo coincida con el backend
+            formData.append('nombre', this.bocedit.tipo.nombre);
+            formData.append('texestanol', this.bocedit.espanol );
+            formData.append('texingles', this.bocedit.ingles );
             formData.append('descripcion', this.bocedit.descripcion || '');
             formData.append('publico', this.bocedit.publico ? 'true' : 'false');
             formData.append('tipo', this.bocedit.tipo.id);
-
-            // Solo agregar el archivo si editimg es true
-            if (this.editimg && this.bocedit.file) {
-                formData.append('archivo', this.bocedit.file);
-            }
 
             let loader = this.$loading.show({
                 canCancel: false,
@@ -652,60 +615,12 @@ export default {
                     });
                 });
         },
-        guardarDatos() {
-            if (!this.boc.file) {
-                this.$swal({
-                    icon: 'error',
-                    title: 'Por favor, selecciona un archivo'
-                });
-                return;
-            }
-
-            // Crear un FormData para enviar el archivo y otros datos
-            const formData = new FormData();
-            formData.append('archivo', this.boc.file); // Asegúrate de que el campo coincida con el backend
-            formData.append('nombre', this.boc.tipo.nombre);
-            formData.append('texestanol', this.boc.espanol );
-            formData.append('texingles', this.boc.ingles );
-            formData.append('descripcion', this.boc.descripcion || '');
-            formData.append('publico', this.boc.publico ? 'true' : 'false');
-            formData.append('tipo', this.boc.tipo.id);
-
-            let loader = this.$loading.show({
-                canCancel: false,
-                loader: 'bars'
-            });
-
-            console.log('formData', formData);
-
-            // Llamar a la API para actualizar el asset
-            BocabularioServices.crearBoc(formData)
-                .then(response => {
-                    loader.hide();
-                    this.$swal({
-                        icon: 'success',
-                        title: 'Bocabulario actualizado exitosamente',
-                        timer: 2000
-                    });
-                    this.open = false;
-                    this.archsub = '';
-                    this.getstaff();
-                })
-                .catch(error => {
-                    loader.hide();
-                    console.error(error);
-                    this.$swal({
-                        icon: 'error',
-                        title: 'Verifica tu información'
-                    });
-                });
-        },
         getstaff(page) {
             let loader = this.$loading.show({
                 canCancel: false,
                 loader: 'bars'
             });
-            BocabularioServices.getabecedario(
+            UsuariosServices.getusuarios(
                 {
                     page: page,
                     nombre: this.filtro_name

@@ -1,5 +1,5 @@
 <script setup>
-    import imgBg from '../assets/imginles.jpg'
+    import imgBg from '../assets/img2.jpg'
     import tecsollogo from '../assets/iconmis_ana.png'
 </script>
 <template>
@@ -257,7 +257,6 @@
 
             },
             guardarDatos(){
-
                 if (!this.form.password || !this.form.passwordConfirm) {
                     this.$swal({
                         icon: 'error',
@@ -300,99 +299,10 @@
                 })
             },
 
-            //     if (value.length === 1 && index < 5) {
-            //         const nextInput = document.getElementById(`code${index + 1}`);
-            //         if (nextInput) {
-            //         nextInput.focus();
-            //         }
-            //     }
-            // },
-            // onKeyDown(event, index) {
-            //     const input = event.target;
-
-            //     if (event.key === 'Backspace' && input.value.length === 0 && index > 0) {
-            //         const prevInput = document.getElementById(`code${index - 1}`);
-            //         if (prevInput) {
-            //         prevInput.focus();
-            //         }
-            //     }
-            // },
-            // abrirModalContra() {
-            //     this.openEdit = true;
-            //     if(this.passwords || this.recuperarContra === true) {
-            //         this.recuperar = true
-            //     } else {
-            //         this.recuperar = false
-            //     }
-            //     this.datosrecuperar.email = '';
-            // },
-            // ActualizarCOntrasena() {
-            //     if (this.contraseñaNueva.contraseñaNew !== this.contraseñaNueva.repeatcontrasena) {
-            //         this.$swal({
-            //             icon: 'warning',
-            //             title: 'Las contraseñas no coinciden'
-            //         })
-            //         return
-            //     }
-            //     let loader = this.$loading.show({
-            //         canCancel: false,
-            //         loader: 'bars'
-            //     });
-            //     const datos = {
-            //         email: this.datosrecuperar.email,
-            //         code: this.code.join(''),
-            //         new_password: this.contraseñaNueva.contraseñaNew,
-            //     }
-            //     LoginService.updatePasswor(datos).then(response => {
-            //         loader.hide()
-            //         this.$swal({
-            //             icon: 'success',
-            //             title: 'Contraseña Actualizada Correctamente',
-            //             timer: 3000
-            //         });
-            //         this.openEdit = false
-            //     }).catch(error => {
-            //         loader.hide()
-            //         this.$swal({
-            //             icon: 'error',
-            //             title: 'Comunicate con el Administrador',
-            //             timer: 3000
-            //         });
-            //     })
-            // },
-            // handleWidgetId(widgetId) {
-            //     console.log("Widget ID: ", widgetId);
-            //     handleGetResponse(widgetId);
-            // },
-            // handleErrorCalback() {
-            //     console.log("Error callback");
-            // },
-            // handleExpiredCallback() {
-            //     this.tokencatpcha = '';
-            //     console.log("Expired callback");
-            // },
             ejecutartoken() {
-                this.twogetUserType(true)
+                this.loginUser()
             },
-            // handleLoadCallback(response) {
-            //     console.log("Load callback", response);
-            //     // this.tokencatpcha = response;
-            //     this.tokencatpcha = response;
-            //     this.twogetUserType()
-            // },
-            twogetUserType() {
-                LoginService.getUType({
-                    username: this.email,
-                }).then(response => {
-                    // console.log(response.data);
-                    this.usuario = response.data.tipo
-                    console.log(this.usuario);
-                    this.loginUser()
-                }).catch(e => {
-                    console.log(e.response)
-                })
-            },
- 
+
             loginUser() {
                 let loader = this.$loading.show({
                     canCancel: false,
@@ -404,9 +314,12 @@
                 }
                 LoginService.login(loginForm)
                     .then(response => {
+                        // console.log('respuesta del server ',response.data);
                         loader.hide()
-                        // Verificar si la respuesta contiene el token
-                        console.log(response.data.auth_token);
+                        console.log('Antes de llamar a setSession:', response.data);
+                        this.$store.dispatch('user/setSession', response.data);
+                        console.log('Después de llamar a setSession');
+
                         
                         if (response.data.auth_token) {
                             this.$swal({
@@ -415,14 +328,8 @@
                                 timer: 2000
                             });
                             this.getUserType(this.email);
-                            // Guardar el token en el store o localStorage
-                            this.$store.dispatch('user/setSession', response.data);
-    
-                            setTimeout(() => {
-                                this.$router.push('/');
-                            }, 2000);
+  
                         } else {
-                            // Si no hay token, mostrar un mensaje de error
                             this.$swal({
                                 icon: 'error',
                                 title: 'Error al iniciar sesión. Intenta nuevamente.'
@@ -431,17 +338,10 @@
 
                     }).catch(e => {
                         loader.hide()
-                        if (e.response.data.error === 'Invalid credentials') {
-                            this.$swal({
-                                icon: 'error',
-                                title: 'If the passwords are correct, the account could be deactivated.'
-                            });
-                        } else {
-                            this.$swal({
-                                icon: 'error',
-                                title: 'Contact the administrator.'
-                            });
-                        }
+                        this.$swal({
+                            icon: 'error',
+                            title: 'Contact the administrator.'
+                        });
                     })
             },
             getUserType(hash_id) {
@@ -450,11 +350,12 @@
                 }).then(response => {
                     this.$store.dispatch('user/setUserType', response.data.tipo);
                     if (hash_id) {
-                        localStorage.setItem('userPk', hash_id); 
-                        localStorage.setItem('userId', hash_id);
-                        this.$router.push('/');
-
+                        // localStorage.setItem('userPk', hash_id); 
+                        // localStorage.setItem('userId', hash_id);
+                        this.$store.dispatch('user/setUserType', response.data.tipo);
+                        this.$store.dispatch('user/setUserId', response.data.id);
                         console.log('Navigating to home page...');
+                        this.$router.push('/');
 
                         console.log(`El ID del usuario (${this.email}) se guardó correctamente en localStorage.`);
                     } else {
@@ -495,9 +396,8 @@ input[type='number'] {
     height: 100vh;
 }
 .img1{
-    width: 70%;
-    height: 70%;
-    margin: auto;
+    width: 100%;
+    height: 100%;
 }
 .content-img{
     width: 47vw;

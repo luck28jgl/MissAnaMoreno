@@ -29,22 +29,18 @@ export function sessionInfo ({dispatch, commit}) {
     });
 }
 
-export function setSession ({}, session) {
+export function setSession ({ commit }, session) {
     sessionStorage.setItem('auth_token', session.auth_token);
-    sessionStorage.setItem('pk', session.usr);
 
     axiosInstance.defaults.headers.common = {
         Accept: 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
         Authorization: 'Token ' + sessionStorage.getItem('auth_token')
     };
+
     // Commit para actualizar el estado del usuario
     commit('setUser', {
-        hash_id: session.hash_id,
         username: session.username,
-        profile: session.profile,
-        permissions: session.permissions,
-        is_admin: session.is_admin,
         type: session.type,
         id: session.id
     });

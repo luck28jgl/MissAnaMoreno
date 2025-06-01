@@ -1,9 +1,7 @@
 export function setUser (state, user) {
-    state.hash_id = user.hash_id;
     state.username = user.username;
-    state.profile = user.profile;
-    state.permissions = user.permissions;
-    state.is_admin = user.is_admin;
+    state.type = user.type;
+    state.id = user.id;
 }
 
 export function deleteUser (state) {
