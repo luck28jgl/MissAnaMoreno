@@ -47,7 +47,6 @@ const routes = [
             {...Tareas},
             {...staff},
             {...abcedario},
-
         ],
         beforeEnter: (to, from, next) => {
             if (to.meta.requiresAuth && !sessionStorage.getItem('auth_token')) {
@@ -67,6 +66,8 @@ const routes = [
                 if (to.path === '/') {
                     if (tipoUsuario === 2) {
                         next('/bocabulario');
+                    } if (tipoUsuario === 1) {
+                        next('/staff');
                     } else {
                         next(); // Permitir la navegación
                     }

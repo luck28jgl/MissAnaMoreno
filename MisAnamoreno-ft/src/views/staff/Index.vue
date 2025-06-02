@@ -84,52 +84,89 @@
             <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
                 <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center max-sm:items-center  sm:p-0 max-2xl:items-center">
                 <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-                    <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-10/12 sm:max-w-4xl sm:p-6 max-md:w-11/12 scroll" style="max-height: 90vh; overflow-y: scroll;">
+                    <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-10/12 sm:max-w-4xl sm:p-6 max-md:w-11/12 scroll" style="max-height: 90vh; overflow-y: scroll; width: 80vw;height: 80vh; max-width: 80vw;">
                         <div>
                             <div  class="mt-3 text-center sm:mt-5">
                                 <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Nuevo bocabulario</DialogTitle>
                                 <div class="mt-2">
                                     <div class="mt-10">
-                                        <div class="space-y-6" style="overflow-y: scroll; height: 300px;" >
+                                        <div class="space-y-6" style="overflow-y: scroll; " >
                                             <label class="text-center text-lg font-semibold leading-6 text-gray-900">Datos del usuario</label>
-                                            <div class="w-full">
-                                                <label for="nombre"
-                                                    class="block text-sm font-medium text-start text-gray-700">Nombre(s)</label>
-                                                <input v-model="form.first_name" type="text" id="nombre"
+                                            <div class="w-full flex flex-row">
+                                                <div class="w-full">
+                                                    <label for="nombre"
+                                                        class="block text-sm font-medium text-start text-gray-700">Nombre(s)</label>
+                                                    <input v-model="form.first_name" type="text" id="nombre"
+                                                        class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2"
+                                                        required />
+                                                </div>
+                                                <div class="w-full">
+                                                    <label for="nombre"
+                                                        class="block text-sm font-medium text-start text-gray-700">Apellidos:</label>
+                                                    <input v-model="form.last_name" type="text" id="apellidos"
+                                                        class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2"
+                                                        required />
+                                                </div>
+                                            </div>
+                                            <div class="w-full flex flex-row">
+                                                <div class="w-full">
+                                                    <label for="email" class="block text-sm text-start font-medium text-gray-700">Correo electrónico</label>
+                                                    <input v-model="form.email" type="email" id="email"
                                                     class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2"
-                                                    required />
+                                                    @input="validateEmail"
+                                                    :class="{ 'border-red-500': !validEmail }" required />
+                                                    <p v-if="!validEmail" class="text-red-500 text-sm mt-1">Debe ser una dirección de correo electrónico válida</p>
+                                                </div>
+                                                <div  class=" w-full ">
+                                                    <div class="w-full">
+                                                        <label for="grado" class="block mb-2 text-sm font-medium text-gray-900 text-black">Tipo de usuario</label>
+                                                        <select v-model="tip_user.id" id="grado" class="mt-1 block w-full border border-[#1f5b9b] text-black rounded-md shadow-sm p-2">
+                                                            <option value="1" selected>Alumno</option>
+                                                            <option value="2">Maestro</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="w-full">
-                                                <label for="nombre"
-                                                    class="block text-sm font-medium text-start text-gray-700">Apellidos:</label>
-                                                <input v-model="form.last_name" type="text" id="apellidos"
-                                                    class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2"
-                                                    required />
+                                            <div v-if="tip_user.id === 1" class="w-full flex flex-row" >
+                                                <div class="w-full">
+                                                    <label for="grado" class="block mb-2 text-sm font-medium text-gray-900 text-black">Grado</label>
+                                                    <select id="grado" class="mt-1 block w-full border border-[#1f5b9b] text-black rounded-md shadow-sm p-2">
+                                                        <option selected>1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                    </select>
+                                                </div>
+                                                <div class="w-full">
+                                                    <label for="grupo" class="block mb-2 text-sm font-medium text-gray-900 text-black">Grupo</label>
+                                                    <select id="grupo" class="mt-1 block w-full border border-[#1f5b9b] text-black rounded-md shadow-sm p-2">
+                                                        <option  value="A" selected>A</option>
+                                                        <option value="B">B</option>
+                                                        <option value="C">C</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                            <div class="w-full">
-                                                <label for="grado" class="block mb-2 text-sm font-medium text-gray-900 text-black">Grado</label>
-                                                <select id="grado" class="mt-1 block w-full border border-[#1f5b9b] text-black rounded-md shadow-sm p-2">
-                                                    <option selected>1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                </select>
-                                            </div>
-                                            <div class="w-full">
-                                                <label for="grupo" class="block mb-2 text-sm font-medium text-gray-900 text-black">Grupo</label>
-                                                <select id="grupo" class="mt-1 block w-full border border-[#1f5b9b] text-black rounded-md shadow-sm p-2">
-                                                    <option  value="A" selected>A</option>
-                                                    <option value="B">B</option>
-                                                    <option value="C">C</option>
-                                                </select>
-                                            </div>
-                                            <div class="w-full">
-                                                <label for="email"
-                                                class="block text-sm text-start font-medium text-gray-700">Correo electrónico</label>
-                                                <input v-model="form.email" type="email" id="email"
-                                                class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2"
-                                                @input="validateEmail"
-                                                :class="{ 'border-red-500': !validEmail }" required />
-                                                <p v-if="!validEmail" class="text-red-500 text-sm mt-1">Debe ser una dirección de correo electrónico válida</p>
+                                            <div v-else class="w-full flex flex-row" >
+                                                <div class="w-full">
+                                                    <label for="grado" class="block mb-2 text-sm font-medium text-gray-900 text-black">Grado a impartir </label>
+                                                    <select id="grado" class="mt-1 block w-full border border-[#1f5b9b] text-black rounded-md shadow-sm p-2">
+                                                        <option selected>1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                    </select>
+                                                </div>
+                                                <div class="w-full">
+                                                    <label for="grupo" class="block mb-2 text-sm font-medium text-gray-900 text-black">Grupo a impartir </label>
+                                                    <multiselect 
+                                                        v-model="selectedGrades" 
+                                                        :options="['A', 'B', 'C', 'D', 'E', 'F']" 
+                                                        :multiple="true" 
+                                                        :close-on-select="false" 
+                                                        :clear-on-select="false" 
+                                                        :hide-selected="true" 
+                                                        placeholder="Selecciona grados"
+                                                        class="mt-1 block w-full border border-[#1f5b9b] text-black rounded-md shadow-sm"
+                                                    />
+                                                </div>
                                             </div>
                                             <div class="w-full">
                                                 <form>
@@ -278,6 +315,8 @@
 </template>
 <script setup>
     import UsuariosServices from '@/services/UsuariosServices'
+    import Multiselect from 'vue-multiselect';
+
     // import CatalogsServices from '@/services/CatalogsServices';
     // import { ref } from 'vue'
     // import { Switch } from '@headlessui/vue'
@@ -296,6 +335,9 @@ export default {
     name: 'bocabularioIndex',
     data () {
         return {
+            selectedGrades: [], // Array to store selected grades
+
+			someCondition: false,
 			tipoUsuario: null,
 			paginaactual: 1,
 			archsub: '',
@@ -305,6 +347,10 @@ export default {
             imagePreview: null,
             contador: 0,
             next: null,
+            tip_user: {
+                id: 1,
+                name: 'Alumno'
+            },
             previous: null,
             form: {
                 email: '',
@@ -668,3 +714,6 @@ export default {
 }
 }
 </script>
+<style>
+@import "vue-multiselect/dist/vue-multiselect.min.css";
+</style>

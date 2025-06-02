@@ -113,15 +113,15 @@
                         </div>
                         <div class="w-full">
                             <label for="grado" class="block mb-2 text-sm font-medium text-gray-900 text-black">Grado</label>
-                            <select id="grado" class="mt-1 block w-full border border-[#1f5b9b]  text-black rounded-md shadow-sm p-2">
+                            <select id="grado" v-model="form.grado" class="mt-1 block w-full border border-[#1f5b9b]  text-black rounded-md shadow-sm p-2">
                                 <option selected>1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                             </select>
                         </div>
                         <div class="w-full">
-                            <label for="grado" class="block mb-2 text-sm font-medium text-gray-900 text-black">Grupo</label>
-                            <select id="grado" class="mt-1 block w-full border border-[#1f5b9b] text-black rounded-md shadow-sm p-2">
+                            <label for="grupo" class="block mb-2 text-sm font-medium text-gray-900 text-black">Grupo</label>
+                            <select id="grupo" v-model="form.grupo" class="mt-1 block w-full border border-[#1f5b9b] text-black rounded-md shadow-sm p-2">
                                 <option  value="A" selected>A</option>
                                 <option value="B">B</option>
                                 <option value="C">C</option>
