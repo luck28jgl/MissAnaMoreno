@@ -87,11 +87,11 @@
                     <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-10/12 sm:max-w-4xl sm:p-6 max-md:w-11/12 scroll" style="max-height: 90vh; overflow-y: scroll; width: 80vw;height: 80vh; max-width: 80vw;">
                         <div>
                             <div  class="mt-3 text-center sm:mt-5">
-                                <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Nuevo bocabulario</DialogTitle>
+                                <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Datos del usuario</DialogTitle>
                                 <div class="mt-2">
                                     <div class="mt-10">
                                         <div class="space-y-6" style="overflow-y: scroll; " >
-                                            <label class="text-center text-lg font-semibold leading-6 text-gray-900">Datos del usuario</label>
+                                            <!-- <label class="text-center text-lg font-semibold leading-6 text-gray-900">Datos del usuario</label> -->
                                             <div class="w-full flex flex-row">
                                                 <div class="w-full">
                                                     <label for="nombre"
@@ -120,7 +120,7 @@
                                                 <div  class=" w-full ">
                                                     <div class="w-full">
                                                         <label for="grado" class="block mb-2 text-sm font-medium text-gray-900 text-black">Tipo de usuario</label>
-                                                        <select v-model="tip_user.id" id="grado" class="mt-1 block w-full border border-[#1f5b9b] text-black rounded-md shadow-sm p-2">
+                                                        <select v-model.number="tip_user.id" id="grado" class="mt-1 block w-full border border-[#1f5b9b] text-black rounded-md shadow-sm p-2">
                                                             <option value="1" selected>Alumno</option>
                                                             <option value="2">Maestro</option>
                                                         </select>
@@ -179,9 +179,7 @@
                                                     </div>
                                                     <div style="margin-bottom: 20px;" class="flex space-x-4">
                                                         <div class="w-full">
-                                                            <label for="contraseñaConfirm" class="block text-sm font-medium text-start text-gray-700">
-                                                                Confirm Password
-                                                            </label>
+                                                            <label for="contraseñaConfirm" class="block text-sm font-medium text-start text-gray-700"> Confirm Password </label>
                                                             <input v-model="form.passwordConfirm" type="password" id="contraseñaConfirm"
                                                                 class="mt-1 block w-full text-black border border-[#1f5b9b] rounded-md shadow-sm p-2" required />
                                                         </div>
