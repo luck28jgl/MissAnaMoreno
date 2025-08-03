@@ -5,6 +5,7 @@ import { axiosInstance } from '@/boot/axios';
 import PrincipalPage from '../views/Index.vue';
 import Bocabulario from './Bocabulario';
 import Tareas from './Tareas';
+import TareasMaestro from './TareasMaestro';
 import staff from './staff';
 import abcedario from './abcedario';
 import Store from '@/store'; 
@@ -45,6 +46,7 @@ const routes = [
             },
             {...Bocabulario},
             {...Tareas},
+            {...TareasMaestro},
             {...staff},
             {...abcedario},
         ],
