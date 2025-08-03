@@ -159,9 +159,9 @@
               navigation: [
                 { name: 'Abecedario', link: 'abcedarioIndex', icon: '',  url: '/abcedario', tipo:[2]},
                 { name: 'Bocabulario', link: 'bocabularioIndex', icon: '',  url: '/bocabulario', tipo:[2]},
-                { name: 'Tareas asignadas', link: 'tareasIndex', icon: '',  url: '/tareas', tipo:[2]},
+                { name: 'Mis tareas', link: 'tareasIndex', icon: '',  url: '/tareas', tipo:[2]},
                 { name: 'Usuarios', link: 'usuariosIndex', icon: '',  url: '/staff', tipo:[1]},
-                { name: 'Tareas general', link: 'tareasgeneralIndex', icon: '',  url: '/tareas', tipo:[1]},
+                { name: 'Gestión de tareas', link: 'tareasMaestroIndex', icon: '',  url: '/tareas-maestro', tipo:[1]},
               ],
               pagando: false,
               open: false,
