@@ -210,6 +210,38 @@ export default {
             })
         },
         getTareasAsignadas(page) {
+            // Mock data for demonstration
+            this.contador = 5;
+            this.tareasAsignadas = [
+                {
+                    id: 1,
+                    titulo: "Práctica de vocabulario: La familia",
+                    descripcion: "Completar los ejercicios del libro páginas 15-18 sobre vocabulario de la familia",
+                    fecha_entrega: "2024-01-15",
+                    completada: false,
+                    archivo_adjunto: null
+                },
+                {
+                    id: 2,
+                    titulo: "Ejercicios de pronunciación",
+                    descripcion: "Grabar un audio de 2 minutos practicando la pronunciación de las palabras nuevas",
+                    fecha_entrega: "2024-01-10",
+                    completada: true,
+                    archivo_adjunto: "/files/audio_guide.mp3"
+                },
+                {
+                    id: 3,
+                    titulo: "Escribir una composición",
+                    descripcion: "Escribir una composición de 200 palabras sobre tu rutina diaria usando el presente simple",
+                    fecha_entrega: "2024-01-20",
+                    completada: false,
+                    archivo_adjunto: null
+                }
+            ];
+            this.next = null;
+            this.previous = null;
+            
+            /* Original API call - uncomment when backend is ready
             let loader = this.$loading.show({
                 canCancel: false,
                 loader: 'bars'
@@ -247,6 +279,7 @@ export default {
                 console.log(response)
                 loader.hide()
             })
+            */
         },
         calcularTotalPaginas(total) {
 			return Math.ceil(total / 10);

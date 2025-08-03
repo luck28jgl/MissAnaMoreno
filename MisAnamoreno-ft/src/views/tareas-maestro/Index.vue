@@ -416,13 +416,61 @@ export default {
             });
         },
         getGruposDisponibles() {
+            // Mock data for demonstration
+            this.gruposDisponibles = [
+                { id: 1, nombre: "Grupo A", grado: "5to grado" },
+                { id: 2, nombre: "Grupo B", grado: "5to grado" },
+                { id: 3, nombre: "Grupo C", grado: "6to grado" },
+                { id: 4, nombre: "Grupo D", grado: "6to grado" },
+                { id: 5, nombre: "Grupo E", grado: "7mo grado" }
+            ];
+
+            /* Original API call - uncomment when backend is ready
             TareasServices.getGruposGrados().then(response => {
                 this.gruposDisponibles = response.data;
             }).catch(error => {
                 console.log('Error al obtener grupos:', error);
             });
+            */
         },
         getTareas(page) {
+            // Mock data for demonstration  
+            this.contador = 4;
+            this.tareas = [
+                {
+                    id: 1,
+                    titulo: "Práctica de vocabulario: La familia",
+                    descripcion: "Completar los ejercicios del libro páginas 15-18 sobre vocabulario de la familia",
+                    fecha_entrega: "2024-01-15",
+                    grupos_asignados: [
+                        { id: 1, nombre: "Grupo A", grado: "5to grado" },
+                        { id: 2, nombre: "Grupo B", grado: "5to grado" }
+                    ]
+                },
+                {
+                    id: 2,
+                    titulo: "Ejercicios de pronunciación",
+                    descripcion: "Grabar un audio de 2 minutos practicando la pronunciación de las palabras nuevas",
+                    fecha_entrega: "2024-01-10",
+                    grupos_asignados: [
+                        { id: 3, nombre: "Grupo C", grado: "6to grado" }
+                    ]
+                },
+                {
+                    id: 3,
+                    titulo: "Escribir una composición",
+                    descripcion: "Escribir una composición de 200 palabras sobre tu rutina diaria usando el presente simple",
+                    fecha_entrega: "2024-01-20",
+                    grupos_asignados: [
+                        { id: 1, nombre: "Grupo A", grado: "5to grado" },
+                        { id: 3, nombre: "Grupo C", grado: "6to grado" }
+                    ]
+                }
+            ];
+            this.next = null;
+            this.previous = null;
+
+            /* Original API call - uncomment when backend is ready
             let loader = this.$loading.show({
                 canCancel: false,
                 loader: 'bars'
@@ -460,6 +508,7 @@ export default {
                 console.log(response)
                 loader.hide()
             })
+            */
         },
         calcularTotalPaginas(total) {
 			return Math.ceil(total / 10);
