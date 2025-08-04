@@ -5,6 +5,33 @@
           <h1 class="text-base font-semibold leading-6 text-gray-900">Mis Tareas</h1>
           <p class="mt-2 text-sm text-black">Estas son las tareas que te han sido asignadas.</p>
         </div>
+        <div class="mt-4 sm:flex-none">
+          <div class="flex gap-2">
+            <div class="relative">
+              <input 
+                type="text" 
+                v-model="filtro_name" 
+                @keyup.enter="buscarTareas()"
+                placeholder="Buscar tareas..." 
+                class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
+              />
+            </div>
+            <button 
+              @click="buscarTareas()" 
+              type="button" 
+              class="block rounded-md bg-black px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            >
+              Buscar
+            </button>
+            <button 
+              @click="refrescarTareas()" 
+              type="button" 
+              class="block rounded-md bg-gray-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
+            >
+              Refrescar
+            </button>
+          </div>
+        </div>
       </div>
       <div class="mt-8 flow-root">
         <div class="-mx-4 -my-2 overflow-x-visible sm:-mx-6 lg:-mx-8">
@@ -201,47 +228,26 @@ export default {
                         this.getTareasAsignadas();
                     }).catch(error => {
                         loader.hide()
+                        console.log('Error al completar tarea:', error);
                         this.$swal({
                             icon: 'error',
-                            title: 'Error al completar la tarea'
+                            title: 'Error al completar la tarea',
+                            text: 'No se pudo conectar con el servidor. Inténtalo de nuevo.'
                         });
                     });
                 }
             })
         },
+        refrescarTareas() {
+            this.filtro_name = '';
+            this.paginaactual = 1;
+            this.getTareasAsignadas();
+        },
+        buscarTareas() {
+            this.paginaactual = 1;
+            this.getTareasAsignadas();
+        },
         getTareasAsignadas(page) {
-            // Mock data for demonstration
-            this.contador = 5;
-            this.tareasAsignadas = [
-                {
-                    id: 1,
-                    titulo: "Práctica de vocabulario: La familia",
-                    descripcion: "Completar los ejercicios del libro páginas 15-18 sobre vocabulario de la familia",
-                    fecha_entrega: "2024-01-15",
-                    completada: false,
-                    archivo_adjunto: null
-                },
-                {
-                    id: 2,
-                    titulo: "Ejercicios de pronunciación",
-                    descripcion: "Grabar un audio de 2 minutos practicando la pronunciación de las palabras nuevas",
-                    fecha_entrega: "2024-01-10",
-                    completada: true,
-                    archivo_adjunto: "/files/audio_guide.mp3"
-                },
-                {
-                    id: 3,
-                    titulo: "Escribir una composición",
-                    descripcion: "Escribir una composición de 200 palabras sobre tu rutina diaria usando el presente simple",
-                    fecha_entrega: "2024-01-20",
-                    completada: false,
-                    archivo_adjunto: null
-                }
-            ];
-            this.next = null;
-            this.previous = null;
-            
-            /* Original API call - uncomment when backend is ready
             let loader = this.$loading.show({
                 canCancel: false,
                 loader: 'bars'
@@ -275,11 +281,46 @@ export default {
                 } else {
                 this.previous = null;
                 }
-            }).catch(response => {
-                console.log(response)
+            }).catch(error => {
+                console.log('Error al cargar tareas:', error)
                 loader.hide()
+                // Fallback to mock data if API fails
+                this.contador = 3;
+                this.tareasAsignadas = [
+                    {
+                        id: 1,
+                        titulo: "Práctica de vocabulario: La familia",
+                        descripcion: "Completar los ejercicios del libro páginas 15-18 sobre vocabulario de la familia",
+                        fecha_entrega: "2024-01-15",
+                        completada: false,
+                        archivo_adjunto: null
+                    },
+                    {
+                        id: 2,
+                        titulo: "Ejercicios de pronunciación",
+                        descripcion: "Grabar un audio de 2 minutos practicando la pronunciación de las palabras nuevas",
+                        fecha_entrega: "2024-01-10",
+                        completada: true,
+                        archivo_adjunto: "/files/audio_guide.mp3"
+                    },
+                    {
+                        id: 3,
+                        titulo: "Escribir una composición",
+                        descripcion: "Escribir una composición de 200 palabras sobre tu rutina diaria usando el presente simple",
+                        fecha_entrega: "2024-01-20",
+                        completada: false,
+                        archivo_adjunto: null
+                    }
+                ];
+                this.next = null;
+                this.previous = null;
+                this.$swal({
+                    icon: 'warning',
+                    title: 'Usando datos de ejemplo',
+                    text: 'No se pudo conectar con el servidor. Mostrando datos de ejemplo.',
+                    timer: 3000
+                });
             })
-            */
         },
         calcularTotalPaginas(total) {
 			return Math.ceil(total / 10);

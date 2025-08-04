@@ -5,8 +5,33 @@
           <h1 class="text-base font-semibold leading-6 text-gray-900">Gestión de Tareas</h1>
           <p class="mt-2 text-sm text-black">Administra las tareas y asígnalas a diferentes grupos y grados.</p>
         </div>
-        <div class="mt-4 w-[200px] sm:flex-none">
-                <button @click="openCreate()" type="button" class="block rounded-md bg-black px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">Crear nueva tarea</button>
+        <div class="mt-4 sm:flex-none">
+          <div class="flex gap-2">
+            <div class="relative">
+              <input 
+                type="text" 
+                v-model="filtro_name" 
+                @keyup.enter="buscarTareas()"
+                placeholder="Buscar tareas..." 
+                class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
+              />
+            </div>
+            <button 
+              @click="buscarTareas()" 
+              type="button" 
+              class="block rounded-md bg-gray-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
+            >
+              Buscar
+            </button>
+            <button 
+              @click="refrescarTareas()" 
+              type="button" 
+              class="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+            >
+              Refrescar
+            </button>
+            <button @click="openCreate()" type="button" class="block rounded-md bg-black px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">Crear nueva tarea</button>
+          </div>
         </div>
       </div>
       <div class="mt-8 flow-root">
@@ -338,10 +363,11 @@ export default {
                 this.getTareas();
             }).catch(error => {
                 loader.hide();
-                console.error(error);
+                console.error('Error al guardar tarea:', error);
                 this.$swal({
                     icon: 'error',
-                    title: 'Error al guardar la tarea'
+                    title: 'Error al guardar la tarea',
+                    text: 'No se pudo conectar con el servidor. Inténtalo de nuevo.'
                 });
             });
         },
@@ -373,9 +399,11 @@ export default {
                         this.getTareas();
                     }).catch(error => {
                         loader.hide()
+                        console.log('Error al eliminar tarea:', error);
                         this.$swal({
                             icon: 'error',
-                            title: 'Error al eliminar la tarea'
+                            title: 'Error al eliminar la tarea',
+                            text: 'No se pudo conectar con el servidor. Inténtalo de nuevo.'
                         });
                     });
                 }
@@ -409,68 +437,46 @@ export default {
                 this.getTareas();
             }).catch(error => {
                 loader.hide();
+                console.log('Error al asignar tarea:', error);
                 this.$swal({
                     icon: 'error',
-                    title: 'Error al asignar la tarea'
+                    title: 'Error al asignar la tarea',
+                    text: 'No se pudo conectar con el servidor. Inténtalo de nuevo.'
                 });
             });
         },
         getGruposDisponibles() {
-            // Mock data for demonstration
-            this.gruposDisponibles = [
-                { id: 1, nombre: "Grupo A", grado: "5to grado" },
-                { id: 2, nombre: "Grupo B", grado: "5to grado" },
-                { id: 3, nombre: "Grupo C", grado: "6to grado" },
-                { id: 4, nombre: "Grupo D", grado: "6to grado" },
-                { id: 5, nombre: "Grupo E", grado: "7mo grado" }
-            ];
-
-            /* Original API call - uncomment when backend is ready
             TareasServices.getGruposGrados().then(response => {
                 this.gruposDisponibles = response.data;
             }).catch(error => {
                 console.log('Error al obtener grupos:', error);
+                // Fallback to mock data if API fails
+                this.gruposDisponibles = [
+                    { id: 1, nombre: "Grupo A", grado: "5to grado" },
+                    { id: 2, nombre: "Grupo B", grado: "5to grado" },
+                    { id: 3, nombre: "Grupo C", grado: "6to grado" },
+                    { id: 4, nombre: "Grupo D", grado: "6to grado" },
+                    { id: 5, nombre: "Grupo E", grado: "7mo grado" }
+                ];
+                this.$swal({
+                    icon: 'warning',
+                    title: 'Usando datos de ejemplo',
+                    text: 'No se pudo cargar los grupos desde el servidor. Mostrando datos de ejemplo.',
+                    timer: 3000
+                });
             });
-            */
+        },
+        refrescarTareas() {
+            this.filtro_name = '';
+            this.paginaactual = 1;
+            this.getTareas();
+            this.getGruposDisponibles();
+        },
+        buscarTareas() {
+            this.paginaactual = 1;
+            this.getTareas();
         },
         getTareas(page) {
-            // Mock data for demonstration  
-            this.contador = 4;
-            this.tareas = [
-                {
-                    id: 1,
-                    titulo: "Práctica de vocabulario: La familia",
-                    descripcion: "Completar los ejercicios del libro páginas 15-18 sobre vocabulario de la familia",
-                    fecha_entrega: "2024-01-15",
-                    grupos_asignados: [
-                        { id: 1, nombre: "Grupo A", grado: "5to grado" },
-                        { id: 2, nombre: "Grupo B", grado: "5to grado" }
-                    ]
-                },
-                {
-                    id: 2,
-                    titulo: "Ejercicios de pronunciación",
-                    descripcion: "Grabar un audio de 2 minutos practicando la pronunciación de las palabras nuevas",
-                    fecha_entrega: "2024-01-10",
-                    grupos_asignados: [
-                        { id: 3, nombre: "Grupo C", grado: "6to grado" }
-                    ]
-                },
-                {
-                    id: 3,
-                    titulo: "Escribir una composición",
-                    descripcion: "Escribir una composición de 200 palabras sobre tu rutina diaria usando el presente simple",
-                    fecha_entrega: "2024-01-20",
-                    grupos_asignados: [
-                        { id: 1, nombre: "Grupo A", grado: "5to grado" },
-                        { id: 3, nombre: "Grupo C", grado: "6to grado" }
-                    ]
-                }
-            ];
-            this.next = null;
-            this.previous = null;
-
-            /* Original API call - uncomment when backend is ready
             let loader = this.$loading.show({
                 canCancel: false,
                 loader: 'bars'
@@ -504,11 +510,51 @@ export default {
                 } else {
                 this.previous = null;
                 }
-            }).catch(response => {
-                console.log(response)
+            }).catch(error => {
+                console.log('Error al cargar tareas:', error)
                 loader.hide()
+                // Fallback to mock data if API fails
+                this.contador = 3;
+                this.tareas = [
+                    {
+                        id: 1,
+                        titulo: "Práctica de vocabulario: La familia",
+                        descripcion: "Completar los ejercicios del libro páginas 15-18 sobre vocabulario de la familia",
+                        fecha_entrega: "2024-01-15",
+                        grupos_asignados: [
+                            { id: 1, nombre: "Grupo A", grado: "5to grado" },
+                            { id: 2, nombre: "Grupo B", grado: "5to grado" }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        titulo: "Ejercicios de pronunciación",
+                        descripcion: "Grabar un audio de 2 minutos practicando la pronunciación de las palabras nuevas",
+                        fecha_entrega: "2024-01-10",
+                        grupos_asignados: [
+                            { id: 3, nombre: "Grupo C", grado: "6to grado" }
+                        ]
+                    },
+                    {
+                        id: 3,
+                        titulo: "Escribir una composición",
+                        descripcion: "Escribir una composición de 200 palabras sobre tu rutina diaria usando el presente simple",
+                        fecha_entrega: "2024-01-20",
+                        grupos_asignados: [
+                            { id: 1, nombre: "Grupo A", grado: "5to grado" },
+                            { id: 3, nombre: "Grupo C", grado: "6to grado" }
+                        ]
+                    }
+                ];
+                this.next = null;
+                this.previous = null;
+                this.$swal({
+                    icon: 'warning',
+                    title: 'Usando datos de ejemplo',
+                    text: 'No se pudo conectar con el servidor. Mostrando datos de ejemplo.',
+                    timer: 3000
+                });
             })
-            */
         },
         calcularTotalPaginas(total) {
 			return Math.ceil(total / 10);
